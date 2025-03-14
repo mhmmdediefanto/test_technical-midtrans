@@ -28,8 +28,8 @@
             snap.pay('<?= $snapToken ?>', {
                 // Optional
                 onSuccess: function(result) {
-                    console.log(result);
 
+                    window.location.href = "{{ route('konfirmasi_booking', ['id' => $bookings->id]) }}"
                     /* You may add your own js here, this is just example */
                     document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
                 },

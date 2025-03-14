@@ -59,7 +59,7 @@
             <!-- Pilih Tanggal -->
             <div>
                 <label for="tanggal_booking" class="block text-gray-700">Tanggal Booking:</label>
-                <input type="text" id="tanggal_booking" name="tanggal_booking" required
+                <input type="text" id="tanggal_booking" name="tanggal_booking" required style="cursor: not-allowed"
                     class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 focus:border-blue-500"
                     readonly>
             </div>
@@ -74,6 +74,11 @@
                     Pesan Sekarang
                 </button>
             </div>
+            <div class="my-4 text-center text-red-500 italic text-[12px]">
+                <p>* jika anda pesan pada hari sabtu dan minggu , maka akan dikenakan biaya tambahan <span
+                        class="font-semibold">Rp
+                        50000</span></p>
+            </div>
         </form>
     </div>
 
@@ -81,9 +86,6 @@
     <script>
         // Kirim data booking dari Laravel ke JavaScript
         let bookedDates = @json($bookings);
-
-        console.log(bookedDates);
-        
     </script>
 
 </body>

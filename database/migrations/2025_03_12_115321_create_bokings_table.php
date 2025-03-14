@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('surcharge')->default(0);
             $table->integer('total_price');
             $table->enum('status', ['pending', 'paid', 'cancelled'])->default('pending');
+            $table->enum('status_booking', ['confirmed', 'unconfirmed'])->nullable()->default('unconfirmed');
             $table->timestamps();
         });
     }

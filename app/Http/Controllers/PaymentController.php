@@ -60,6 +60,14 @@ class PaymentController extends Controller
 
         if ($transactionStatus == 'settlement') {
             $transaction->status = 'success';
+            $transaction->payment_method = $payload['payment_type'] ?? 'unknown';
+            $transaction->payment_time = now();
+
+            // Periksa apakah payment type adalah virtual account dan memiliki va_numbers
+            if (isset($payload['va_numbers']) && !empty($payload['va_numbers'])) {
+                $transaction->payment_method .= ' (' . $payload['va_numbers'][0]['bank'] . ')';
+            }
+
             if ($transaction->boking) {
                 $transaction->boking->status = 'paid'; // Misalnya status booking berubah jadi "paid"
                 $transaction->boking->save();

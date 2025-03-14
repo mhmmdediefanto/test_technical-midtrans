@@ -20,7 +20,7 @@ class BokingController extends Controller
     {
         $services = Service::select('id', 'name', 'price')->get();
         // Ambil semua booking yang sudah dibuat
-        $bookings = Boking::select('tanggal_booking')->get();
+        $bookings = Boking::where('status_booking', 'confirmed')->select('tanggal_booking')->get();
         if (!$bookings) {
             return null;
         }
@@ -100,6 +100,7 @@ class BokingController extends Controller
                     'transaction_id' => 'BOOK-' . $uuid,
                     'amount' => $totalPrice,
                     'status' => 'pending',
+                    'snap_token' => $snapToken
                 ]);
                 DB::commit();
                 // Redirect ke halaman pembayaran dengan token Midtrans
@@ -109,5 +110,13 @@ class BokingController extends Controller
             DB::rollBack();
             throw $th;
         }
+    }
+
+    public function konfirmasi_booking($id)
+    {
+        $booking = Boking::findOrFail($id);
+        $booking->status_booking = 'confirmed';
+        $booking->save();
+        return view('konfirmasi_booking', compact('booking'));
     }
 }

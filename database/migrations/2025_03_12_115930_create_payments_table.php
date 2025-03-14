@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('boking_id')->constrained('bokings')->onDelete('cascade');
             $table->string('transaction_id');
+            $table->string('snap_token');
             $table->string('payment_method')->nullable();
             $table->integer('amount');
             $table->enum('status', ['pending', 'success', 'failed'])->default('pending');
