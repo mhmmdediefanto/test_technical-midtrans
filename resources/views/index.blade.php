@@ -12,8 +12,8 @@
 <body class="bg-gradient-to-tr from-white to-cyan-300">
     <div class="w-full flex items-center justify-center bg-white p-3">
         <div class="w-1/2 flex justify-around">
-            <a href="" class="text-gray-600 hover:text-gray-800">History Booking</a>
-            <a href="" class="text-gray-600 hover:text-gray-800">History Transaction</a>
+            <a href="{{ route('history') }}" class="text-gray-600 hover:text-gray-800">History Booking</a>
+          
         </div>
     </div>
     <div class="w-1/2 mx-auto bg-white shadow-lg rounded-lg p-6 mt-10">

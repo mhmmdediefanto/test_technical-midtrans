@@ -12,4 +12,7 @@ Route::group(['middleware' => 'web'], function () {
 
 
     Route::get('/bookings/konfirmed_booking/{id}', [BokingController::class, 'konfirmasi_booking'])->name('konfirmasi_booking');
+
+    Route::get('/bookings/history', [BokingController::class, 'history'])->name('history');
+    Route::get('/transactions/history', [BokingController::class, 'history_transaksi'])->name('history_transaksi');
 });

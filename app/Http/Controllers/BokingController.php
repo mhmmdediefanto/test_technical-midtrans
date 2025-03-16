@@ -133,4 +133,11 @@ class BokingController extends Controller
         $booking->save();
         return view('konfirmasi_booking', compact('booking'));
     }
+
+    public function history()
+    {
+
+        $bookings = Boking::with('service')->latest()->get();
+        return view('history_booking', compact('bookings'));
+    }
 }
