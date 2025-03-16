@@ -42,7 +42,7 @@ class PaymentController extends Controller
             Log::error('Invalid Signature', [
                 'expected' => $expectedSignature,
                 'received' => $signatureKey,
-                'order_id' => $orderId,
+                'transaction_id' => $orderId,
                 'status_code' => $statusCode,
                 'gross_amount' => $grossAmount,
                 'server_key' => config('midtrans.server_key'),
@@ -52,9 +52,10 @@ class PaymentController extends Controller
 
 
 
-        $transaction = Payment::where('transaction_id', $orderId)->first();
+        $transaction = Payment::where('order_id', $orderId)->first();
 
         if (!$transaction) {
+            Log::error('Transaction not found', ['transaction_id' => $orderId]);
             return response()->json(['status' => 'transaction Id not found'], 401);
         }
 

@@ -20,7 +20,7 @@ class BokingController extends Controller
     {
         $services = Service::select('id', 'name', 'price')->get();
         // Ambil semua booking yang sudah dibuat
-        $bookings = Boking::where('status_booking', 'confirmed')->select('tanggal_booking')->get();
+        $bookings = Boking::with('service', 'payment')->where('status_booking', 'confirmed')->select('tanggal_booking', 'service_id')->get();
         if (!$bookings) {
             return null;
         }
@@ -41,9 +41,14 @@ class BokingController extends Controller
             ]);
 
             // dd($validatedData);
-            $bookings = Boking::where('tanggal_booking', $request->tanggal_booking)->exists();
+            $bookings = Boking::where('tanggal_booking', $request->tanggal_booking)
+                ->where('service_id', $request->service_id)
+                ->exists();
+            // Jika sudah dibooking, kembalikan dengan pesan error
             if ($bookings) {
-                return back()->with('error', 'Tanggal yang anda pilih sudah di booking');
+                // dd('errors bookingss');
+                $serviceName = $request->service_id == 1 ? 'PS4' : 'PS5'; // Menentukan nama layanan
+                return  back()->with('error', "Tanggal yang anda pilih untuk layanan $serviceName sudah dibooking.");
             }
 
             $service = Service::findOrFail($request->service_id);
@@ -82,6 +87,14 @@ class BokingController extends Controller
                         'order_id' => 'BOOK-' . $uuid,
                         'gross_amount' => $totalPrice,
                     ],
+                    'item_details' => [
+                        [
+                            'id' => 'BOOK-' . $uuid,
+                            'name' => $service->name,
+                            'price' => $totalPrice,
+                            'quantity' => 1,
+                        ]
+                    ],
                     'customer_details' => [
                         'first_name' => $bookings->customer_name,
                         'email' => $bookings->customer_email,
@@ -96,6 +109,7 @@ class BokingController extends Controller
 
                 // Simpan transaksi dengan status "pending"
                 Payment::create([
+                    'order_id' => 'BOOK-' . $uuid,
                     'boking_id' => $bookings->id,
                     'transaction_id' => 'BOOK-' . $uuid,
                     'amount' => $totalPrice,
@@ -108,7 +122,7 @@ class BokingController extends Controller
             }
         } catch (\Throwable $th) {
             DB::rollBack();
-            throw $th;
+            return back()->with('error', 'Terjadi kesalahan saat menyimpan data: ' . $th->getMessage());
         }
     }
 

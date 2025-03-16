@@ -20,9 +20,10 @@
             <div>
                 <p class="text-[12px] text-slate-600 ">Nama Pelanggan: <strong>{{ $booking->customer_name }}</strong>
                 </p>
-                <p class="text-[12px] text-slate-600 ">Tanggal Booking: <strong>{{ $booking->tanggal_booking }}</strong>
+                <p class="text-[12px] text-slate-600 ">Tanggal Booking:
+                    <strong>{{ Carbon\Carbon::parse($booking->booking_date)->isoFormat('dddd, D MMMM Y') }}</strong>
                 </p>
-                <p class="text-[12px] text-slate-600 ">Jumlah Sesi: <strong>{{ $booking->total_sessions }}</strong></p>
+                <p class="text-[12px] text-slate-600 ">Jumlah Sesi: <strong>1 Sesi</strong></p>
                 <p class="text-[12px] text-slate-600 ">Total Harga: <strong>Rp
                         {{ number_format($booking->total_price, 0, ',', '.') }}</strong></p>
             </div>

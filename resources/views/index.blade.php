@@ -10,11 +10,19 @@
 </head>
 
 <body class="bg-gradient-to-tr from-white to-cyan-300">
-    <div class="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6 mt-10">
+    <div class="w-full flex items-center justify-center bg-white p-3">
+        <div class="w-1/2 flex justify-around">
+            <a href="" class="text-gray-600 hover:text-gray-800">History Booking</a>
+            <a href="" class="text-gray-600 hover:text-gray-800">History Transaction</a>
+        </div>
+    </div>
+    <div class="w-1/2 mx-auto bg-white shadow-lg rounded-lg p-6 mt-10">
 
-        @if (session('error'))
+
+
+        @if (Session::has('error'))
             <div class="bg-red-500 text-white p-3 rounded-lg mb-4">
-                {{ session('error') }}
+                {{ Session::get('error') }}
             </div>
         @endif
 
@@ -23,7 +31,6 @@
                 {{ session('success') }}
             </div>
         @endif
-
         <h2 class="text-2xl font-bold mb-5 text-center">Form Booking</h2>
 
         <form action="{{ route('bookings.store') }}" method="POST" class="space-y-4">
@@ -86,6 +93,8 @@
     <script>
         // Kirim data booking dari Laravel ke JavaScript
         let bookedDates = @json($bookings);
+
+        console.log(bookedDates);
     </script>
 
 </body>
